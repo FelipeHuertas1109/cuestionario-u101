@@ -11,17 +11,29 @@ export function useAutoRefresh<T>(url: string, intervalMs: number = 15000) {
     let active = true;
 
     const fetchData = async () => {
+      const fullUrl = `${window.location.origin}${url}`;
+      console.log(`[useAutoRefresh] Fetching: ${fullUrl}`);
+
       try {
         const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        console.log(`[useAutoRefresh] ${url} -> status ${res.status}`);
+
+        if (!res.ok) {
+          const text = await res.text();
+          console.error(`[useAutoRefresh] Error body:`, text.slice(0, 500));
+          throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        }
+
         const json = await res.json();
         if (active) {
           setData(json);
           setError(null);
         }
       } catch (err) {
+        const message = err instanceof Error ? err.message : "Error desconocido";
+        console.error(`[useAutoRefresh] Fetch failed for ${url}:`, message);
         if (active) {
-          setError(err instanceof Error ? err.message : "Error desconocido");
+          setError(`${message} (URL: ${url})`);
         }
       } finally {
         if (active) setLoading(false);

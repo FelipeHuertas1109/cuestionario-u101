@@ -1,16 +1,15 @@
-// URLs relativas: Next.js rewrites las redirige al backend externo
-// Esto evita problemas de CORS tanto en desarrollo como en produccion
+// Frontend llama a estas URLs locales.
+// Next.js (app/api/...) hace proxy al backend Django en Vercel.
+
 const BASE_URL = "";
 
 export const API_URLS = {
-  resumen: `${BASE_URL}/api/dashboard/resumen/`,
-  estadisticas: `${BASE_URL}/api/dashboard/estadisticas/`,
-  votosPorFecha: `${BASE_URL}/api/dashboard/votos-por-fecha/`,
-  votosPorHora: `${BASE_URL}/api/dashboard/votos-por-hora/`,
-  respuestas: `${BASE_URL}/api/dashboard/respuestas/?limit=50`,
+  resumen: `${BASE_URL}/api/dashboard/resumen`,
+  estadisticas: `${BASE_URL}/api/dashboard/estadisticas`,
+  votosPorFecha: `${BASE_URL}/api/dashboard/votos-por-fecha`,
+  votosPorHora: `${BASE_URL}/api/dashboard/votos-por-hora`,
+  respuestas: `${BASE_URL}/api/dashboard/respuestas?limit=50`,
 };
-
-// Types
 
 export interface Candidato {
   letra: string;
@@ -64,3 +63,4 @@ export interface RespuestasResponse {
   total: number;
   respuestas: Respuesta[];
 }
+

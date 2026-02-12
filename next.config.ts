@@ -1,14 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "https://cuestionario-mu.vercel.app/api/:path*",
-      },
-    ];
-  },
+  // Dejamos sin rewrites: el proxy se maneja con API Routes (app/api/*)
 };
 
 export default nextConfig;
