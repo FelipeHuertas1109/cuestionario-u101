@@ -7,8 +7,7 @@ import { es } from "date-fns/locale";
 
 export default function ResponsesTable() {
   const { data, loading, error } = useAutoRefresh<RespuestasResponse>(
-    API_URLS.respuestas,
-    15000
+    API_URLS.respuestas
   );
 
   if (loading) {
@@ -35,19 +34,13 @@ export default function ResponsesTable() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-lg font-semibold text-gray-900">
-            Respuestas en Vivo
+            Respuestas
           </h2>
           <p className="text-sm text-gray-500">
             {data.total} respuestas registradas
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-          </span>
-          <span className="text-xs text-gray-500">Auto-refresh activo</span>
-        </div>
+        <div className="text-xs text-gray-500">Se actualiza al recargar</div>
       </div>
 
       <div className="overflow-x-auto -mx-6">

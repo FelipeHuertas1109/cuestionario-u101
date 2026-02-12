@@ -56,16 +56,12 @@ export default function Dashboard() {
                 <h1 className="text-xl font-bold text-gray-900">
                   Cuestionario U101
                 </h1>
-                <p className="text-sm text-gray-500">Dashboard en vivo</p>
+                <p className="text-sm text-gray-500">Dashboard</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="hidden sm:flex items-center gap-2 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full text-sm font-medium">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                Datos en vivo
+              <div className="hidden sm:flex items-center gap-2 bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full text-sm font-medium">
+                Actualiza al recargar
               </div>
             </div>
           </div>
@@ -94,8 +90,8 @@ export default function Dashboard() {
       <footer className="border-t border-gray-100 bg-white mt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <p className="text-center text-sm text-gray-400">
-            Cuestionario U101 &middot; Los datos se actualizan automaticamente
-            cada 15 segundos
+            Cuestionario U101 &middot; Los datos se actualizan al recargar la
+            pagina
           </p>
         </div>
       </footer>

@@ -16,8 +16,7 @@ import { es } from "date-fns/locale";
 
 export default function TimelineChart() {
   const { data, loading, error } = useAutoRefresh<VotosPorFecha>(
-    API_URLS.votosPorFecha,
-    30000
+    API_URLS.votosPorFecha
   );
 
   if (loading) {

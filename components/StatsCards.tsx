@@ -20,8 +20,7 @@ function SkeletonCard() {
 
 export default function StatsCards() {
   const { data, loading, error } = useAutoRefresh<Estadisticas>(
-    API_URLS.estadisticas,
-    15000
+    API_URLS.estadisticas
   );
 
   if (loading) {

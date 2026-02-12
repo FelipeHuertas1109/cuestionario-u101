@@ -2,25 +2,22 @@
 
 import { useState, useEffect } from "react";
 
-export function useAutoRefresh<T>(url: string, intervalMs: number = 15000) {
+// Carga datos una vez al montar el componente.
+// Si en el futuro quieres reactivar polling, pasa intervalMs > 0.
+export function useAutoRefresh<T>(url: string, intervalMs: number = 0) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
+    const controller = new AbortController();
 
     const fetchData = async () => {
-      const fullUrl = `${window.location.origin}${url}`;
-      console.log(`[useAutoRefresh] Fetching: ${fullUrl}`);
-
       try {
-        const res = await fetch(url);
-        console.log(`[useAutoRefresh] ${url} -> status ${res.status}`);
+        const res = await fetch(url, { signal: controller.signal });
 
         if (!res.ok) {
-          const text = await res.text();
-          console.error(`[useAutoRefresh] Error body:`, text.slice(0, 500));
           throw new Error(`HTTP ${res.status}: ${res.statusText}`);
         }
 
@@ -30,10 +27,10 @@ export function useAutoRefresh<T>(url: string, intervalMs: number = 15000) {
           setError(null);
         }
       } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return;
         const message = err instanceof Error ? err.message : "Error desconocido";
-        console.error(`[useAutoRefresh] Fetch failed for ${url}:`, message);
         if (active) {
-          setError(`${message} (URL: ${url})`);
+          setError(message);
         }
       } finally {
         if (active) setLoading(false);
@@ -41,11 +38,13 @@ export function useAutoRefresh<T>(url: string, intervalMs: number = 15000) {
     };
 
     fetchData();
-    const interval = setInterval(fetchData, intervalMs);
+    const interval =
+      intervalMs > 0 ? setInterval(fetchData, intervalMs) : null;
 
     return () => {
       active = false;
-      clearInterval(interval);
+      controller.abort();
+      if (interval) clearInterval(interval);
     };
   }, [url, intervalMs]);
 

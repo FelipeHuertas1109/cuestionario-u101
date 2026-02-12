@@ -15,8 +15,7 @@ import { format, parseISO } from "date-fns";
 
 export default function ActivityChart() {
   const { data, loading, error } = useAutoRefresh<VotosPorHora>(
-    API_URLS.votosPorHora,
-    30000
+    API_URLS.votosPorHora
   );
 
   if (loading) {
